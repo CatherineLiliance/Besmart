@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    color: #fff;
+    text-align: center;
+    background-image: linear-gradient(360deg,yellow, rgb(232, 89, 113));
+}
+img{
+    align-content: space-between;
+    height: 50%;
+    width: 50%;
+    border: solid olive;
+    padding: 0px;
+    margin-left: 10px;
+    text-align: center;
+    transform: rotate(5deg);
+    filter: grayscale(50%) blur(0px);
+    background: linen;
+}
+h1{
+    padding: 20px;
+    margin: center;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+}
+button{
+    font-size: 18px;
+    background-color: blueviolet;
+    color: #fff;
+    border-radius: 30px;
+    margin: 30px 0 0 0;
+    transform: rotate(5deg);
+    font-style: italic;
+}
+span{
+    background: ;
+}
+.improvethegrade{
+    color: red;
+}
+.row{
+margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+.home{
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    padding: 12px 34px;
+    font-size: 13px;
+    background-color: transparent;
+    position: relative;
+    cursor: pointer;
+}
+.home:hover{
+    border: 1px solid rgb(240, 229, 61);
+    background: rgb(240, 229, 61);
+    transition: 1s;
+  }
+.info{
+    display: flex;
+    flex-direction: row;
+}
