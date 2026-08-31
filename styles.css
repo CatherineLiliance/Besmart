@@ -1,328 +1,586 @@
+/* ==========================================================================
+   Design tokens
+   ========================================================================== */
+:root {
+  --color-primary: #8B0000;
+  --color-primary-light: #FFE4E1;
+  --color-accent: #f71d95;
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #222222;
+  --color-text-muted: #666666;
+  --color-border: #d9d9d9;
+
+  --font-heading: 'Orelega One', cursive;
+  --font-body: 'Orelega One', cursive;
+
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.15);
+
+  --container-width: 1200px;
+  --header-height: 100px;
+  --header-height-shrink: 72px;
+}
+
+/* ==========================================================================
+   Reset & base
+   ========================================================================== */
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Orelega One', cursive;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 2000;
+  background: var(--color-primary);
+  color: #fff;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+}
+
+.skip-link:focus {
+  left: var(--space-md);
+  top: var(--space-md);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
 header {
-    width: 100%;
-    background-color: #8B0000; /* Dark red color */
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-    height: 120px;
-    transition: all 0.3s ease; /* Smooth transition for resizing */
-    display: flex;
-    justify-content: center; /* Center everything inside header */
-    align-items: center;
-    padding: 0 50px;
+  width: 100%;
+  background-color: var(--color-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  height: var(--header-height);
+  transition: height 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-lg);
 }
 
-/* Sidebar mặc định (khi thu nhỏ) */
-.custom-sidebar {
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 10px; /* Thu nhỏ hoàn toàn */
-    background-color: #333;
-    padding: 10px 0; /* Không có padding ngang */
-    border-radius: 30px 0 0 30px;
-    overflow: hidden; /* Ẩn hoàn toàn nội dung */
-    z-index: 1000;
-    transition: width 0.3s ease, padding 0.3s ease;
+header.shrink {
+  height: var(--header-height-shrink);
 }
 
-/* Sidebar khi hover (mở rộng) */
-.custom-sidebar:hover {
-    width: 60px; /* Mở rộng */
-    padding: 10px 5px; /* Thêm padding ngang */
-    background-color: #444; /* Đổi màu nền */
-}
-
-/* Nút trong Sidebar */
-.nav-btn {
-    width: 100%;
-    height: 50px;
-    background: none;
-    border: none;
-    color: white;
-    text-align: left;
-    padding: 10px 15px;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    border-radius: 50%;
-    align-items: center;
-    gap: 10px;
-    transition: opacity 0.3s ease, transform 0.2s ease;
-    opacity: 0; /* Ẩn nút khi thu nhỏ */
-}
-
-/* Nút khi Sidebar mở rộng */
-.custom-sidebar:hover .nav-btn {
-    opacity: 1; /* Hiện nút */
-}
-
-/* Hiệu ứng hover nút */
-.nav-btn:hover {
-    transform: scale(1.6); /* Di chuyển nhẹ */
-}
-
-/* Ẩn hoàn toàn nút khi Sidebar thu nhỏ */
-.custom-sidebar:not(:hover) .nav-btn {
-    transform: translateX(100%); /* Đẩy nút ra ngoài */
-}
-
-/* Hiệu ứng khi được chọn (active) */
-.nav-btn.active {
-    color: black;
-    transform: scale(1.6); /* Di chuyển nhẹ */
-}
-
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 609px; /* Set max width to center the content */
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  gap: var(--space-lg);
 }
 
 nav {
-    flex: 1; /* Allow the navigation to take available space */
+  flex: 1;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center; /* Center the navigation items */
-    gap: 20px; /* Decrease space between navigation items */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
 }
 
-nav ul li {
-    position: relative; /* Needed for the ::after underline */
+.nav-right .nav-links {
+  justify-content: flex-end;
 }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 20px;
-    padding-bottom: 5px; /* Add some padding at the bottom */
-    display: inline-block; /* Make the link behave like a block for the underline */
-    position: relative; /* For pseudo-element positioning */
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  padding-bottom: 5px;
+  display: inline-block;
+  position: relative;
 }
 
-/* Underline using ::after */
-nav ul li a::after {
-    content: '';
-    position: absolute;
-    left: 50%; /* Start from the center */
-    bottom: 0;
-    height: 2px; /* Thickness of the underline */
-    width: 0; /* Start with no underline */
-    background-color: white; /* Color of the underline */
-    transition: width 0.3s ease, left 0.3s ease; /* Smooth animation for both width and left */
-    
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #fff;
+  transition: width 0.3s ease, left 0.3s ease;
 }
 
-nav ul li a:hover::after {
-    width: 100%; /* Full underline when hovered */
-    left: 0; /* Move from the center to the full width */
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  width: 100%;
+  left: 0;
 }
 
 .logo-container {
-    flex-shrink: 0; /* Prevent the logo from shrinking */
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
 .logo-container:hover {
-  transform: scale(1.2); /* Tăng kích thước khi hover */
+  transform: scale(1.1);
 }
 
 .logo-container:active {
-  transform: scale(0.95); /* Giảm kích thước khi click */
+  transform: scale(0.95);
 }
 
-#logo {
-    width: 120px;
-    transition: width 0.3s ease; /* Smooth logo resizing */
+.logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--color-primary);
+  font-size: 28px;
+  font-family: Georgia, serif;
+  transition: width 0.3s ease, height 0.3s ease, font-size 0.3s ease;
 }
 
-/* Shrinking effect */
-header.shrink {
-    height: 80px; /* Header becomes shorter */
+header.shrink .logo-mark {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
 }
 
-header.shrink #logo {
-    width: 80px; /* Logo becomes smaller */
+/* ==========================================================================
+   Quick menu (floating jump-to-section panel, click-to-expand)
+   ========================================================================== */
+.custom-sidebar {
+  position: fixed;
+  top: 50%;
+  right: var(--space-sm);
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
 }
 
-.content {
-    padding: 150px 50px; /* Add padding to prevent overlap with fixed header */
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
 }
 
-.text-box{
-    width: 90%;
-    color: #8B0000;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    text-align: center;
-  }
-  .text-box h1{
-    font-size: 62px;
-  }
-  .text-box p{
-    margin: 10px 0 40px;
-    font-size: 14px;
-    color: #fff;
-  }
+.sidebar-toggle i {
+  font-size: 22px;
+}
 
-  .fun-smart{
-    display: inline-block;
-    text-decoration: none;
-    color: #8B0000;
-    border: 1px solid #8B0000;
-    padding: 12px 34px;
-    font-size: 13px;
-    background-color: transparent;
-    position: relative;
-    cursor: pointer;
-    border-radius: 30px;
-  }
-  .fun-smart:hover{
-    border: 1px solid #FFE4E1;
-    background: #FFE4E1;
-    transition: 0.5s;
-  }  
+.sidebar-toggle span {
+  /* Visually hidden: the icon speaks for itself, the label is for screen readers */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
 
+.sidebar-toggle:hover,
+.sidebar-toggle:focus-visible {
+  background: #6e0000;
+}
 
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #333;
+  border-radius: var(--radius-md);
+  padding: var(--space-xs);
+  box-shadow: var(--shadow-md);
 
-@media(max-width: 700px) {
-    .text-box h1{ 
-      font-size: 20px;
-    }
-    .nav-links ul li{
-      display: block;
-    }
-    .nav-links{
-      position: absolute;
-      background: #8B0000;
-      height: 100vh;
-      width: 190px;
-      top: 0;
-      right: -200;
-      text-align: left;
-      z-index: 2;
-      transition: 0.5s;
-    }
-    nav .fa{
-      display: block;
-      color: #fff;
-      margin: 10px;
-      font-size: 22px;
-      cursor: pointer;
-    }
-    .nav-links ul{
-      padding: 30px;
-    }
-  }
-  
-/*------Sections----*/
+  max-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: max-width 0.25s ease, opacity 0.2s ease;
+}
 
-.containerbutton {
-  max-width: 800px;
+.custom-sidebar.open .sidebar-list {
+  max-width: 200px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: 100%;
+  background: none;
+  border: none;
+  color: #eee;
+  padding: 8px 10px;
+  font-size: 13px;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-btn i {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.nav-btn:hover,
+.nav-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-btn.active {
+  color: #ffd166;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  max-width: 900px;
   margin: 0 auto;
+  padding: calc(var(--header-height) + var(--space-xl)) var(--space-lg) var(--space-xl);
+  text-align: center;
+  color: var(--color-primary);
+}
+
+.hero h1 {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+.hero p {
+  margin: var(--space-md) 0 var(--space-lg);
+  font-size: 16px;
+  color: var(--color-text-muted);
+}
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.fun-smart {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 12px 28px;
+  font-size: 13px;
+  background-color: transparent;
+  border-radius: var(--radius-pill);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.fun-smart:hover,
+.fun-smart:focus-visible {
+  border-color: var(--color-primary-light);
+  background: var(--color-primary-light);
+}
+
+/* ==========================================================================
+   Quick access — search bar + category chips
+   ========================================================================== */
+.quick-access {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 500;
+  margin-bottom: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+header.shrink ~ main .quick-access {
+  top: var(--header-height-shrink);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  padding: 10px var(--space-md);
+  background: #fff;
+}
+
+.search-bar i {
+  color: var(--color-primary);
+  font-size: 18px;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--color-text);
+  background: transparent;
+}
+
+.search-clear {
+  border: none;
+  background: var(--color-primary);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chip-row {
+  display: flex;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  margin-top: var(--space-sm);
+  padding-bottom: 4px;
+}
+
+.chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.chip:hover,
+.chip:focus-visible {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.search-empty {
+  margin-top: var(--space-sm);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+/* Search-filter states applied by script.js */
+.btn.is-hidden,
+.box.is-hidden,
+.section.is-hidden {
+  display: none;
+}
+
+/* ==========================================================================
+   Sections & cards
+   ========================================================================== */
+main {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  align-items: start;
+  gap: var(--space-md);
+}
+
+/* Grid items default to a content-based minimum width, which lets a single
+   wide child (e.g. nowrap chips) force every column to grow ("grid
+   blowout"). Zero that out so items always respect their column/track. */
+main > * {
+  min-width: 0;
+}
+
+/* Sections with many links (or grouped boxes) take the full row;
+   small sections are left to share a row so the page isn't one
+   near-empty full-width card after another. */
+.hero,
+.quick-access,
+.section--wide {
+  grid-column: 1 / -1;
 }
 
 .section {
-  background: white;
-  padding: 30px;
-  max-width: 1200px; /* Tăng chiều rộng tối đa */
-  margin: 20px auto; /* Center section on the page */
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface);
+  padding: var(--space-lg);
+  margin: 0;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: var(--header-height);
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-h2 {
-  color: #333;
+.section h2 {
+  color: var(--color-text);
   text-align: center;
-  margin: 0 30 30 30;
+  margin-bottom: var(--space-md);
+  font-size: 26px;
 }
 
 .btn-container {
   display: flex;
   justify-content: center;
-  gap: 15px; /* Khoảng cách giữa các nút */
-  flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ chỗ */
+  align-items: flex-start;
+  align-content: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+/* Sections that group links into titled .box cards use a real grid
+   so every box in a row lines up and shares the same height. */
+.btn-container--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  align-items: stretch;
+  justify-content: center;
 }
 
 .btn {
-  background-color: #8B0000;
+  background-color: var(--color-primary);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   padding: 10px 20px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  text-decoration: none; /* Xóa gạch chân của thẻ a */
-  transition: background-color 0.3s, transform 0.2s;
-  transition: transform 0.3s ease, margin 0.3s ease; /* Transition for scaling and margin */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  gap: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-.box {
-  position: relative;
-    border: 2px solid lightgray; /* Create the border around the container */
-    width: 150px;
-    padding: 20px 10px 10px; /* Top padding increased to make space for title */
-    text-align: center;
-    border-radius: 10px; /* Optional: rounded corners */
+.btn:hover,
+.btn:focus-visible {
+  background-color: #f28989;
+  transform: translateY(-2px) scale(1.05);
 }
 
-.title {
-  position: absolute;
-  top: -10px; /* Adjust the position above the box */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #fff; /* Background color to cover the border */
-  padding: 0px 5px;
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-placeholder {
+  background-color: #bbb;
+  cursor: default;
+  pointer-events: none;
 }
 
 .btn img {
-  margin-left: 5px;
   width: 20px;
   height: 20px;
 }
 
-.btn:hover {
-  background-color: #f28989;
-  transform: scale(1.2); /* Tăng kích thước khi hover */
-  margin: 0 20px; /* Add space to surrounding buttons */
+.box {
+  position: relative;
+  border: 2px solid lightgray;
+  min-width: 160px;
+  padding: var(--space-md) var(--space-sm) var(--space-sm);
+  text-align: center;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
 }
 
-.btn:active {
-  transform: scale(0.95); /* Giảm kích thước khi click */
+.box .title {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-surface);
+  padding: 0 var(--space-xs);
+  font-size: 14px;
+  color: var(--color-text-muted);
 }
 
-/*------footer----*/
-.footer{
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
   width: 100%;
   text-align: center;
-  padding: 30px 0;
+  padding: var(--space-xl) var(--space-md);
 }
-.footer h4{
-  margin-bottom: 25px;
-  margin-top: 20px;
+
+.footer h4 {
+  margin-bottom: var(--space-md);
   font-weight: 600;
 }
+
+.home-sci {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+}
+
 .home-sci a {
   display: inline-flex;
   justify-content: center;
@@ -330,235 +588,152 @@ h2 {
   width: 40px;
   height: 40px;
   background: transparent;
-  border: 2px solid #f71d95;
+  border: 2px solid var(--color-accent);
   border-radius: 50%;
   font-size: 20px;
-  color: #f71d95;
+  color: var(--color-accent);
   text-decoration: none;
-  transition: .5s ease;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease, transform 0.5s ease;
   opacity: 0;
-  animation: slideLeft 1s ease forwards;
-  animation-delay: calc(.2s * var(--i));
-  margin: 30px 15px 30px 0;
+  transform: translateY(30px);
 }
-.home-sci a:hover{
-background: #f71d95;
-color: #081b29;
-box-shadow: 0 0 20px #f71d95; 
+
+.home-sci.show a {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(0.1s * var(--i));
 }
-.fa-heart-o{
+
+.home-sci a:hover,
+.home-sci a:focus-visible {
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 0 20px var(--color-accent);
+}
+
+.made-with {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.made-with .bx {
   color: #f44336;
 }
 
-
-
-@keyframes slideRight {
-  0% {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0px);
-    opacity: 1;
-  }
-}
-@keyframes slideLeft {
-  0% {
-    transform: translateX(100px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0px);
-    opacity: 1;
-  }
-}
-  @keyframes slideTop {
-    0% {
-      transform: translateY(100px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0px);
-      opacity: 1;
-    }
-  }
-  @keyframes slideBottom {
-    0% {
-      transform: translateY(-100px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0px);
-      opacity: 1;
-    }
-  }
-
-  .home-sci a {
-    display: inline-flex;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    transform: translateY(50px);
-  }
-  
-  .home-sci.show a {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* Định dạng logo */
-.logo {
-  display: block;
-  margin: 50px auto;
-  width: 100px;
-  cursor: pointer;
-}
-
-/* Tạo chiều dài trang để có thể cuộn */
-.content {
-  height: 850px;
-  background-color: #ffffff;
-}
-
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
 @media (max-width: 700px) {
-  .btn-container {
-      flex-direction: column; /* Stack buttons vertically */
-      gap: 10px; /* Reduce gap between buttons */
-  }
-
-  .btn {
-      width: 100%; /* Make buttons take full width */
-      padding: 15px 0; /* Increase padding for better touch targets */
-      font-size: 16px; /* Adjust font size for better readability */
-  }
-
-  .text-box h1 {
-      font-size: 28px; /* Adjust header size for mobile */
-  }
-
-  .text-box p {
-      font-size: 12px; /* Adjust paragraph font size */
-  }
-
   header {
-      height: 70px; /* Reduce header height on mobile */
-      padding: 0 20px; /* Adjust padding */
+    height: auto;
+    padding: var(--space-sm) var(--space-md);
   }
 
-  #logo {
-      width: 60px; /* Shrink logo for mobile */
+  header.shrink {
+    padding: var(--space-xs) var(--space-md);
   }
 
-  .nav-links ul {
-      flex-direction: column; /* Stack navigation links vertically */
-      padding: 20px 0;
+  .header-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: var(--space-xs);
   }
 
-  .nav-links ul li {
-      margin-bottom: 10px; /* Add space between menu items */
+  .header-inner .logo-container {
+    order: -1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
-  .footer h4 {
-      font-size: 18px; /* Adjust footer text size */
-  }
-}
-
-/*date*/
-.clock-container {
-  text-align: center;
-}
-
-#time {
-  font-size: 60px;
-  color: #666666;
-  font-weight: bold;
-}
-
-#date {
-  font-size: 20px;
-  color: #999999;
-  margin-top: 10px;
-}
-/* Responsive styles for mobile */
-@media (max-width: 700px) {
-  /* Header adjustments */
-  header {
-    height: 60px; /* Shrink header for smaller screens */
-    padding: 0 10px;
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
   }
 
-  #logo {
-    width: 50px; /* Shrink logo */
+  .nav-links {
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .nav-links ul {
-    flex-direction: column;
-    gap: 15px; /* Space out menu items vertically */
+  .nav-links a {
+    font-size: 13px;
   }
 
-  .nav-links ul li {
-    margin-bottom: 10px;
+  .hero {
+    padding-top: 160px;
   }
 
-  /* Sidebar adjustments */
+  /* Header height is variable on mobile (wraps to 2 rows), so a sticky
+     quick-access bar risks sitting under it — keep it in normal flow instead. */
+  .quick-access {
+    position: static;
+    margin-left: var(--space-sm);
+    margin-right: var(--space-sm);
+    padding: var(--space-sm);
+  }
+
   .custom-sidebar {
-    width: 40px; /* Make sidebar narrower */
+    right: 6px;
   }
 
-  .custom-sidebar:hover {
-    width: 100px; /* Adjust hover expansion */
+  .sidebar-toggle {
+    width: 40px;
+    height: 40px;
   }
 
-  .nav-btn {
-    height: 40px; /* Reduce button size */
-    font-size: 14px;
-    padding: 8px 10px; /* Add padding for better touch */
-    transition: background-color 0.3s, transform 0.2s ease;
+  .sidebar-toggle i {
+    font-size: 18px;
   }
 
-  /* Section content adjustments */
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  main {
+    padding: 0 var(--space-sm);
+  }
+
   .section {
-    padding: 10px;
+    padding: var(--space-md);
+    scroll-margin-top: 110px;
   }
 
-  h2 {
-    font-size: 20px; /* Adjust section title size */
-    margin-bottom: 10px; /* Add space below titles */
+  .section h2 {
+    font-size: 20px;
   }
 
   .btn-container {
     flex-direction: column;
-    gap: 10px; /* Space out buttons vertically */
+    align-items: stretch;
   }
 
   .btn {
     width: 100%;
-    padding: 15px 10px; /* Increase padding for better touch targets */
-    font-size: 16px; /* Slightly larger font for readability */
-    text-align: center; /* Center align text */
+    justify-content: center;
+    padding: 14px 10px;
+    font-size: 15px;
   }
 
-  .btn img {
-    width: 16px; /* Adjust icon size */
-    height: 16px;
-    margin-left: 5px; /* Space between text and icon */
+  .custom-sidebar {
+    width: 36px;
   }
 
-  .text-box h1 {
-    font-size: 22px; /* Adjust header size for mobile */
-    line-height: 1.4; /* Improve readability */
+  .custom-sidebar:hover,
+  .custom-sidebar:focus-within,
+  .custom-sidebar.open {
+    width: 100px;
   }
 
-  .text-box p {
-    font-size: 14px; /* Increase font size slightly */
-    margin-bottom: 20px; /* Add space below paragraph */
-  }
-
-  .footer {
-    padding: 15px 0;
+  .nav-btn {
+    height: 40px;
+    font-size: 14px;
   }
 
   .footer h4 {
@@ -566,8 +741,8 @@ html {
   }
 
   .home-sci a {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     font-size: 16px;
   }
 }
